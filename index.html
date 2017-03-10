@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gitcharts.js - jQuery Github charts plugin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700|Open+Sans:300,400" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script src="gitcharts.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="col-md-8 col-md-offset-2">
+                <h1>Gitcharts</h1>
+                <p>Easy Github data charts for individuals and organizations.</p>
+                <a href="https://github.com/Jdoyle112/gitcharts" class="btn hvr-grow-shadow">View on Github</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="intro">
+        <div class="container">
+            <div class="col-md-8 col-md-offset-2">        
+                <h2>What is Gitcharts?</h2>
+                <hr>
+                <p>The Gitcharts jQuery plugin easily allows you to create data charts of a user, or organizations commit events from Github. This plugin makes use of the Github puplic API data to construct charts using the Morris.js plugin.</p>
+                <p>You can use this plugin to display a chart of your recent commit history organized by dates, or repositories.</p>
+            </div>
+        </div>        
+    </section>
+
+    <section id="install">
+        <div class="container">
+            <div class="col-md-8 col-md-offset-2">        
+                <h2>Installation</h2>
+                <hr>
+                <p>To get started with this plugin, first include the required dependencies.</p>
+                <pre>
+                    <code class="language-html">
+                        &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css"&gt;
+
+                        &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"&gt;&lt;/script&gt;
+
+                        &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.js"&gt;&lt;/script&gt;
+
+                        &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"&gt;&lt;/script&gt;
+                    </code>
+                </pre>
+                <p>This plugin requires an updated version of jQuery, <a href="http://morrisjs.github.io/morris.js/">morris.js</a>, and <a href="http://dmitrybaranovskiy.github.io/raphael/">raphael.js</a>.</p>
+                <p>Once those scripts are included, you can download this repo as a zipped file and extract the package. Copy and paste data/gitcharts.min.js into your projects files. Link to the file with a script tag from your html (below the dependencies scripts). Ex..</p>
+                <pre>
+                    <code>
+                        &lt;script src="gitcharts.min.js"&gt;&lt;/script&gt;
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+
+    <section id="usage">
+        <div class="container">
+            <div class="col-md-8 col-md-offset-2">
+                <h2>Usage & Examples</h2>
+                <hr>
+                <p>The first step to using this plugin is creating a div element where the chart will be displayed. Add a div to your html, and assign it a class or id which we will reference later. You can name to class or id whatever you like.</p>
+                <pre>
+                    <code>
+                        &lt;div class="gitchart"&gt;&lt;/div&gt;
+                    </code>
+                </pre>
+                <p>To activate the plugin on that element, we reference the selector and call the gitcharts method with whatever parameters you need.</p>
+                <pre>
+                    <code>
+                        $('.gitchart').gitcharts({
+
+                        });
+                    </code>
+                </pre>
+                <p>The plugin allows you to return data for either an individual github username, or an organization. It also offers three different types of charts to display the data in. At a minimum, you must specify the user type, the username/ organization name, and the chart type. Ex..</p>
+                <pre>
+                    <code>
+                        $('.gitchart.').gitcharts({
+                            userType: 'individual',
+                            username: 'jdoyle112',
+                            chart: 'donut'
+                        });
+                    </code>
+                </pre>
+                <br>
+
+                <h4>Available Options & Parameters</h4>
+
+                <table class="table-responsive">
+                    <thead>
+                        <tr>
+                            <th>
+                                Attribute
+                            </th>
+                            <th>
+                                Default
+                            </th>
+                            <th>
+                                Values
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                userType
+                            </td>
+                            <td>
+                                'individual'
+                            </td>
+                            <td>
+                                'individual' <br>
+                                'organization'
+                            </td>
+                            <td>
+                                Use this field to specify whether a an individual user or organization is being used.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                username
+                            </td>
+                            <td>
+                                null
+                            </td>
+                            <td>
+                                'your_github_username'
+                            </td>
+                            <td>
+                                Use this field to specify the github username of the individual who's data should be returned.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                organization
+                            </td>
+                            <td>
+                                null
+                            </td>
+                            <td>
+                                'sample_github_org'
+                            </td>
+                            <td>
+                                Use this field to specify the github organization name who's data should be returned.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                chart
+                            </td>
+                            <td>
+                                'donut'
+                            </td>
+                            <td>
+                                'donut'<br>
+                                'bar' <br>  
+                                'line'
+                            </td>
+                            <td>
+                                Use this field to specify the type of chart to be displayed.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                xAxisDataType
+                            </td>
+                            <td>
+                                'repos'
+                            </td>
+                            <td>
+                                'repos'<br>
+                                'date'
+                            </td>
+                            <td>
+                                This field will specify the data type of the x axis of the chart.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                colors
+                            </td>
+                            <td>
+                                ['#1abc9c', '#3498db', '#9b59b6', '#e67e22' ]
+                            </td>
+                            <td>
+                                Array of hex color codes
+                            </td>
+                            <td>
+                                Use this field to set the colors to be used for the charts. It accepts an array of string hex color values.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                grid
+                            </td>
+                            <td>
+                                true
+                            </td>
+                            <td>
+                                true<br>
+                                false
+                            </td>
+                            <td>
+                                This field will hide or show horizontal grid lines for line and bar charts.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                hideOnHover
+                            </td>
+                            <td>
+                                true
+                            </td>
+                            <td>
+                                true<br>
+                                false<br>
+                                'always'
+                            </td>
+                            <td>
+                                Use this field to control how the hover popup is displayed. true will only show the popup when the mouse is hovering over it. false will always show the popup. 'always' will never show the popup.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                lineWidth
+                            </td>
+                            <td>
+                                2
+                            </td>
+                            <td>
+                                Any number value
+                            </td>
+                            <td>
+                                Use this field to set the line width in px for line graphs.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                pointSize
+                            </td>
+                            <td>
+                                4
+                            </td>
+                            <td>
+                                Any number value
+                            </td>
+                            <td>
+                                Use this field to set the point size in px for line graphs.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                pointFillColors
+                            </td>
+                            <td>
+                                Same as colors
+                            </td>
+                            <td>
+                                Array of hex colors
+                            </td>
+                            <td>
+                                Use this field to set the point colors for line graphs. By default, it uses the same values set for colors.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                smooth
+                            </td>
+                            <td>
+                                true
+                            </td>
+                            <td>
+                                true<br>
+                                false
+                            </td>
+                            <td>
+                                This field will specify how the line for line graphs should be drawn. True will make the lines smooth, false will make them rigid.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                resize
+                            </td>
+                            <td>
+                                true
+                            </td>
+                            <td>
+                                true<br>
+                                false
+                            </td>
+                            <td>
+                                Use this field to specify whether the chart should resize itself when the window screen size changes. Set to false by default due to impact on performance.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Examples</h4>
+                <div class="example">
+                    <p><b>1.</b> Personal donut chart displaying data grouped by repos.</p>
+                    <div class="gitchart-1"></div>
+                    <pre>
+                        <code>  
+                            $('.github-chart').gitcharts({
+                                userType: 'individual',
+                                username: 'jdoyle112',
+                                chart: 'donut',
+                                resize: true
+                            });
+                        </code>
+                    </pre>
+                </div>
+
+                <div class="example">
+                    <p><b>2.</b> Personal line chart displaying data grouped by dates with values for <i>xAxisDataType</i>, <i>lineWidth</i> and <i>smooth</i>.</p>
+                    <div class="gitchart-2"></div>
+                    <pre>
+                        <code>  
+                            $('.github-chart').gitcharts({
+                                userType: 'individual',
+                                username: 'jdoyle112',
+                                chart: 'line',
+                                xAxisDataType: 'date',
+                                lineWidth: 3,
+                                smooth: false,
+                                resize: true
+                            });
+                        </code>
+                    </pre>
+                </div>
+
+                <div class="example">
+                    <p><b>3.</b> Organization bar chart displaying data grouped by repos with values for <i>grid</i> and <i>hideOnHover</i>.</p>
+                    <div class="gitchart-3"></div>
+                    <pre>
+                        <code>  
+                            $('.github-chart').gitcharts({
+                                userType: 'organization',
+                                username: 'mozilla',
+                                chart: 'bar',
+                                hideOnHover: false,
+                                grid: false,
+                                resize: true
+                            });
+                        </code>
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>©2017 <a href="http://jackdoyle.co">Jack Doyle.</a> All rights reserved.</p>
+    </footer>
+
+
+    <script type="text/javascript">
+                            
+        $('.gitchart-1').gitcharts({
+            userType: 'individual',
+            username: 'jdoyle112',
+            chart: 'donut',
+            colors: ['#1abc9c', '#3498db', '#9b59b6', '#e67e22' ],
+            resize: true
+        });
+
+        $('.gitchart-2').gitcharts({
+            userType: 'individual',
+            username: 'jdoyle112',
+            chart: 'line',
+            xAxisDataType: 'date',
+            lineWidth: 3,
+            smooth: false,
+            colors: ['#34495e', '#e74c3c', '#bdc3c7'],
+            resize: true
+        });
+
+        $('.gitchart-3').gitcharts({
+            userType: 'organization',
+            organization: 'mozilla',
+            chart: 'bar',
+            hideOnHover: false,
+            grid: false,
+            colors: ['#e74c3c', '#bdc3c7'],
+            resize: true
+        });
+
+    </script>
+
+</body>
+</html>
